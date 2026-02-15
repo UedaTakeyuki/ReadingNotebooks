@@ -1,0 +1,20 @@
+# Construction, Destruction, and Exceptions
+- 初期化 (constructor run) に失敗した (causes an exception) オブジェクトは生成されていないとみなされ、故にデストラクタも呼ばれない
+  - [Listing 16.11](https://godbolt.org/z/99PPn595E)、“CanThrow” の コンストラクタは例外で終了することがある
+    - ct2 のコンストラクタは例外で終了する、故に生成されていないとみなされ ct2 のデストラクタは呼ばれない
+- コンストラクタが例外で終了するまでに行った他のデータ領域の初期化は例外の終了時点でスコープの終端のように cleaned up　される
+  - ゆえに new を raw pointer と一緒に使うべきではない
+```
+class Mega {
+    std::vector<int>     data_;
+    CanThrow             canThrow_;
+    std::map<string,int> more_;
+public:
+    Mega()
+      : data_{}
+      , canThrow_{666}  // triggers an exception
+      , more_{}
+      { }
+};  
+```
+  - canThrow の呼び出しで例外で終了する前に生成された data_ は適切に cleaned up　される
