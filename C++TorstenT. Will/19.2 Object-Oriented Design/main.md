@@ -45,8 +45,6 @@
 
 [Model-View-Controller](Model-View-Controller.md)
 
-例えば、データストレージをOracleデータベースに実装し、ウェブサイトの表示をHTMLで実装したとします。コントローラーがこれら両方を統合し、すべてが正常に動作します。
-
 
 
 ## 19.2.2    Don't Be STUPID
