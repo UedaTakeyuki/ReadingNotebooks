@@ -45,6 +45,7 @@
 
 [Model-View-Controller](Model-View-Controller.md)
 
-
+### Single Responsibility Principle
+なぜクラスは 1 つの責任だけを持つ必要があるのか?これにはいくつかの理由がある。 1 つ目はルールの副題にすでに埋め込まれていて、それはソースコードを変更する理由は 1 つだけであるべきだからと述べている
 
 ## 19.2.2    Don't Be STUPID
