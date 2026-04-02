@@ -45,7 +45,9 @@ int showDialogAgain() {
 }  
 ```
 
-pressedOne に対して showModal() を呼び出すと、ダイアログの btnOk_ データ フィールドが pressedOne 変数に転送されることがお分かりいただけたと思います。どちらも unique_ptr ですが、生のポインターの所有者になれるのは 1 つだけです。new で一度作成された Button* です。そして、showModal() への最初の呼び出しで、pressedOne にはこの Button ポインターが含まれ、dialog.btnOk_ には「空」の値である nullptr が含まれます。この例では、2 番目の showModal() は引き続き機能します。次に、この nullptr を pressedTwo に転送します。この nullptr で ->id_ を試行すると、プログラムは (良くても) クラッシュします。
+pressedOne に対して showModal() を呼び出すと、 dialog の btnOk_ データフィールドが pressedOne 変数に転送される事に気付いているはずだ。
+どちらも unique_ptr だが、生のポインター(かつて new で一度作成された Button*)の所有者になれるのは 1 つのみ。
+そして、showModal() への最初の呼び出しで、pressedOne にはこの Button ポインターが含まれ、dialog.btnOk_ には「空」の値である nullptr が含まれます。この例では、2 番目の showModal() は引き続き機能します。次に、この nullptr を pressedTwo に転送します。この nullptr で ->id_ を試行すると、プログラムは (良くても) クラッシュします。
 
 unique_ptr を戻り値として使用して何ができるかについてのこの小さなチュートリアルを失礼します。これは、一意の所有権を持つ unique_ptr には副作用があることを示しています。これらはまさにあなたが望んでいる副作用です。コンパイラーは、それ自体の名前を持つ変数またはデータ フィールドから内容を盗むという考えを思いつきません。 std::move() を手伝ってくれました。
 
