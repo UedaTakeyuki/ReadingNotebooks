@@ -45,10 +45,27 @@ int showDialogAgain() {
 }  
 ```
 
-pressedOne に対して showModal() を呼び出すと、 dialog の btnOk_ データフィールドが pressedOne 変数に転送される事に気付いているはずだ。
+pressedOne の showModal() を呼び出すと dialog の btnOk_ データフィールドが pressedOne 変数に転送される事に気付いているはずだ。
 どちらも unique_ptr だが、生のポインター(かつて new で一度作成された Button*)の所有者になれるのは 1 つのみ。
-そして、showModal() への最初の呼び出しで、pressedOne にはこの Button ポインターが含まれ、dialog.btnOk_ には「空」の値である nullptr が含まれます。この例では、2 番目の showModal() は引き続き機能します。次に、この nullptr を pressedTwo に転送します。この nullptr で ->id_ を試行すると、プログラムは (良くても) クラッシュします。
+そして、showModal() の最初の呼び出しで pressedOne にはこの Button ポインターが含まれ、dialog.btnOk_ には「空」の値である nullptr が含まれる。
+この例では、2 番目の showModal() は引き続き機能します。次に、この nullptr を pressedTwo に転送する。
+この nullptr で ->id_ を試行すると、プログラムは (良くても) クラッシュします。
 
-unique_ptr を戻り値として使用して何ができるかについてのこの小さなチュートリアルを失礼します。これは、一意の所有権を持つ unique_ptr には副作用があることを示しています。これらはまさにあなたが望んでいる副作用です。コンパイラーは、それ自体の名前を持つ変数またはデータ フィールドから内容を盗むという考えを思いつきません。 std::move() を手伝ってくれました。
+unique_ptr を戻り値として使用して何ができるかについてのこの小さなチュートリアルを失礼。
+これは、一意の所有権を持つ unique_ptr には副作用があることを示している。
+これらはまさに望まれる副作用であり、コンパイラーは、それ自体の名前を持つ変数またはデータフィールドから中身を盗むという事を思いつかない。 
+それを std::move() で助けた。
 
 [“std::move” Itself Does Not Move](./std::move-Itself-Does-Not-Move.md)
+
+データフィールドはすべて unique_ptr。
+ここでは、ポインターのない単純なデータフィールドで十分。
+ただし、後で MyDialog をポリモーフィックに拡張したい場合もあるだろう。
+そのためには、ポインターが必要。
+ここでのポリモーフィックとは、たとえば、Textfield クラスから派生した ColorfulTextfield クラスを作成し、そのクラスのインスタンスを unique_ptr<Textfield> txtFirstName_ に配置することを意味する。
+txtFirstName_ がポインター (または参照) でない場合、ColorfulTextfield のプロパティは失われる。
+この例は第 15 章にある。
+
+unique_ptr の使用に関する経験則を適用できます。例外は以下の規則を示す：
+- ほとんどの場合、unique_ptr を参照引数として使用できる。その後、引数は他の参照と同様に動作する。さらに、「未定義状態」に nullptr を渡すこともでき、これは時に有益。
+
