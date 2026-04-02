@@ -49,4 +49,4 @@ pressedOne に対して showModal() を呼び出すと、ダイアログの btnO
 
 unique_ptr を戻り値として使用して何ができるかについてのこの小さなチュートリアルを失礼します。これは、一意の所有権を持つ unique_ptr には副作用があることを示しています。これらはまさにあなたが望んでいる副作用です。コンパイラーは、それ自体の名前を持つ変数またはデータ フィールドから内容を盗むという考えを思いつきません。 std::move() を手伝ってくれました。
 
-[“std::move” Itself Does Not Move](“std::move”\ Itself\ Does\ Not\ Move.md)
+[“std::move” Itself Does Not Move](std::move-Itself-Does-Not-Move.md)
